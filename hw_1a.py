@@ -1,7 +1,7 @@
 from nltk import sent_tokenize, word_tokenize
 
 t = open("sentence_splitter_input.txt", "r")
-
+text = t.read()
 print(text)
 
 
