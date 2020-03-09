@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 state_names = ["California", "Nevada", "Arizona", "Florida", "Maryland", "Pennsylvania",
                "New Jersey", "North Carolina", "Vermont", "Idaho"]
 
+
 def lookup_state_wiki(state_name):
     '''
     Finds wikipedia page for given state_name
@@ -16,7 +17,6 @@ def lookup_state_wiki(state_name):
         return soup.get_text()
     else:
         print("State not found")
-
 
 
 def lookup_GSP(wiki_text):
@@ -64,14 +64,10 @@ def clean_nickname_data(data):
     data = re.sub("\[[0-9]\]", "", data)
     data = data.replace("\"", "")
     temp = re.split(r'[;,]', data)
-   #temp = data.split(";")
     nicknames = []
     for nickname in temp:
         nicknames.append(nickname.strip())
     return nicknames
-
-
-
 
 
 def collect_state_info(state_names):
@@ -82,6 +78,7 @@ def collect_state_info(state_names):
     """
     state_outputs = []
     for state in state_names:
+        print("Processing " + state + "...")
         state_text = lookup_state_wiki(state)
         GSP = lookup_GSP(state_text)
         if GSP != "Not Found":
@@ -91,6 +88,7 @@ def collect_state_info(state_names):
         nicknames_as_string = ";"
         nicknames_as_string = nicknames_as_string.join(nicknames)
         state_outputs.append(state + '\t' + str(GSP) + '\t' + nicknames_as_string)
+    print("Process complete. Results stored in 'output.tsv'")
     with open('output.tsv', 'w') as fp:
         for state_output in state_outputs:
             fp.write(state_output + '\n')
